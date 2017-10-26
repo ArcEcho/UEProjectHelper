@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>SWidget</Name>
+    <Description>SWidget</Description>
+    <Icon>SWidget.ico</Icon>
+    <TemplateID>ba8930f2-0418-431a-bbb9-b30ea30f663a</TemplateID>
+    <ProjectType>VC</ProjectType>
+    <ProjectSubType>UE4</ProjectSubType>
+    <DefaultName>SWidget.cpp</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <References/>
+    <ProjectItem ReplaceParameters="true">SWidget.cpp</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
