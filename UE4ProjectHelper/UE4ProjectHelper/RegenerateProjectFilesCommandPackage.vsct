@@ -37,7 +37,8 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidRegenerateProjectFilesCommandPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>-->
+        <Parent guid="guidRegenerateProjectFilesCommandPackageCmdSet" id="UE4HelperMenu"/>
       </Group>
     </Groups>
 
@@ -56,7 +57,7 @@
         <Parent guid="guidRegenerateProjectFilesCommandPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke RegenerateProjectFilesCommand</ButtonText>
+          <ButtonText>RegenerateProjectFiles</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -70,6 +71,16 @@
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\RegenerateProjectFilesCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
     </Bitmaps>
+
+    <Menus>
+      <Menu guid="guidRegenerateProjectFilesCommandPackageCmdSet" id="UE4HelperMenu" priority="0x700" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <Strings>
+          <ButtonText>UE4 Helper</ButtonText>
+          <CommandName>UE4 Helper</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
   </Commands>
 
   <Symbols>
@@ -80,6 +91,7 @@
     <GuidSymbol name="guidRegenerateProjectFilesCommandPackageCmdSet" value="{e2f445d8-cc4d-4886-8c74-ea25a363148c}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="RegenerateProjectFilesCommandId" value="0x0100" />
+      <IDSymbol name="UE4HelperMenu" value="0x1021"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{10c9d8b0-eb5b-4b64-8ef6-24aacf2e4747}" >

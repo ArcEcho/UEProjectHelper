@@ -95,7 +95,7 @@ namespace UE4ProjectHelper
 			if (targetKey.GetValueNames().Length != 1)
 			{
 				string message = string.Format(CultureInfo.CurrentCulture, "Error occurred when trying to read UnrealVersionSelector's path from register table.");
-				string title = "RegenerateProjectFilesCommand";
+				string title = "UE4 Helper - RegenerateProjectFiles";
 
 				VsShellUtilities.ShowMessageBox(
 					this.ServiceProvider,
