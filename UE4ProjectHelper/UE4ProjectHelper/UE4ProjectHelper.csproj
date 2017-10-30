@@ -60,6 +60,7 @@
     <Compile Include="OpenAddFileDialogCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegenerateProjectFilesCommand.cs" />
+    <Compile Include="UE4Helper.cs" />
     <Compile Include="UE4HelperPackage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,8 +74,10 @@
     <Content Include="index.html" />
     <VSCTCompile Include="UE4HelperPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Resource Include="Resources\OpenAddFileDialogCommand.png" />
+    <Resource Include="Resources\folder.png" />
     <Content Include="Resources\RegenerateProjectFilesCommand.png" />
     <Content Include="Resources\UE4HelperPackage.ico" />
     <Content Include="stylesheet.css" />

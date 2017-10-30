@@ -6,6 +6,12 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.Windows;
 using Microsoft.Internal.VisualStudio.PlatformUI;
 
+using System.Diagnostics;
+using Microsoft.Win32;
+using EnvDTE;
+using System.IO;
+using System.Collections.Generic;
+
 namespace UE4ProjectHelper
 {
     /// <summary>
@@ -80,6 +86,21 @@ namespace UE4ProjectHelper
             Instance = new OpenAddFileDialogCommand(package);
         }
 
+        private void ShowDebugString(String inString)
+        {
+            string message = string.Format(CultureInfo.CurrentCulture, "{0}", inString);
+            string title = "Show Debug String";
+
+            // Show a message box to prove we were here
+            VsShellUtilities.ShowMessageBox(
+                this.ServiceProvider,
+                message,
+                title,
+                OLEMSGICON.OLEMSGICON_CRITICAL,
+                OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+        }
+
         /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
@@ -89,22 +110,44 @@ namespace UE4ProjectHelper
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            //string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            //string title = "OpenAddFileDialogCommand";
+            DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+            if (dte.Solution.FullName.Length == 0 || dte.Solution.FullName == null)
+            {
+                string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
+                string title = "UE4 Project Helper";
 
-            //// Show a message box to prove we were here
-            //VsShellUtilities.ShowMessageBox(
-            //    this.ServiceProvider,
-            //    message,
-            //    title,
-            //    OLEMSGICON.OLEMSGICON_INFO,
-            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                // Show a message box to prove we were here
+                VsShellUtilities.ShowMessageBox(
+                    this.ServiceProvider,
+                    message,
+                    title,
+                    OLEMSGICON.OLEMSGICON_CRITICAL,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
 
+                return;
+            }
+
+            string uprojectFileName = dte.Solution.FullName.Replace(".sln", ".uproject");
+            if(!File.Exists(uprojectFileName))
+            {
+                string message = string.Format(CultureInfo.CurrentCulture, "This project is not a valid UE4 project since there is no uproject file detected!");
+                string title = "UE4 Project Helper";
+
+                // Show a message box to prove we were here
+                VsShellUtilities.ShowMessageBox(
+                    this.ServiceProvider,
+                    message,
+                    title,
+                    OLEMSGICON.OLEMSGICON_CRITICAL,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+
+                return;
+            }
 
             IVsUIShell uiShell = (IVsUIShell)ServiceProvider.GetService(typeof(SVsUIShell));
-
-            AddFileDialog dialog = new AddFileDialog(uiShell);
+            AddFileDialog dialog = new AddFileDialog(uiShell,uprojectFileName );
             //get the owner of this dialog  
             IntPtr hwnd;
             uiShell.GetDialogOwnerHwnd(out hwnd);
@@ -119,6 +162,8 @@ namespace UE4ProjectHelper
                 // This will take place after the window is closed.  
                 uiShell.EnableModeless(1);
             }
+
+
         }
     }
 }

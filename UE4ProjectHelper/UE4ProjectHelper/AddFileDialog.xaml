@@ -5,10 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UE4ProjectHelper"
         mc:Ignorable="d"
-        Title="AddFileDialog" Height="300" Width="300">
-    <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="193,181,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBlock HorizontalAlignment="Left" Margin="56,92,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-
+        Title="AddFileDialog" Height="446.691" Width="537.972" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,-1">
+        <TreeView x:Name="directoryTreeView" Width="209" Height="387" Margin="12,12,0,0" 
+          VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:DirectoryRecord}"
+                                  ItemsSource="{Binding Directories}" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/folder.png" Width="16" Height="16"/>
+                        <TextBlock Text="{Binding Info.Name}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="256,379,0,0" VerticalAlignment="Top" Width="234" Click="Button_Click_1"/>
+        <TextBlock x:Name="myTextBlock" HorizontalAlignment="Left" Margin="318,168,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
     </Grid>
 </Window>

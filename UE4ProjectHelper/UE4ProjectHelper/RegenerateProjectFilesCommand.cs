@@ -111,7 +111,7 @@ namespace UE4ProjectHelper
 				if (dte.Solution.FullName.Length == 0 || dte.Solution.FullName == null)
 				{
 					string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
-					string title = "RegenerateProjectFilesCommand";
+					string title = "UE4 Project Helper";
 
 					// Show a message box to prove we were here
 					VsShellUtilities.ShowMessageBox(
