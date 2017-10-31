@@ -31,7 +31,7 @@ namespace UE4ProjectHelper
                 return Info.GetFiles();
             }
         }
-        
+
         public IEnumerable<DirectoryRecord> Directories
         {
             get
@@ -49,50 +49,33 @@ namespace UE4ProjectHelper
     public partial class AddFileDialog : Window
     {
         private IVsUIShell uiShell;
-        private string projectFileName;
 
-        public AddFileDialog(IVsUIShell uiShell, string projectFileName)
+        public AddFileDialog(IVsUIShell uiShell)
         {
             this.uiShell = uiShell;
-            this.projectFileName = projectFileName;
 
             InitializeComponent();
 
             DetectModules();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "OpenAddFileDialogCommand";
-
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                null,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-        }
-
         private void DetectModules()
         {
             var ModuleCollection = new ObservableCollection<DirectoryRecord>();
 
-            string projectDirectory = System.IO.Path.GetDirectoryName(this.projectFileName);
+            string projectRootDirectory = UE4Helper.Instance.GetProjectRootDirectory();
             List<string> moduleSourceDirectories = new List<string>();
 
             // Add game module
-            string projectName = System.IO.Path.GetFileNameWithoutExtension(this.projectFileName);
-            string gameModuleSourceDirectory = System.IO.Path.Combine(projectDirectory, "Source", projectName);
+            string projectName = UE4Helper.Instance.GetProjectName();
+            string gameModuleSourceDirectory = System.IO.Path.Combine(projectRootDirectory, "Source", projectName);
             moduleSourceDirectories.Add(gameModuleSourceDirectory);
 
             //Add plugin modules, if exist.
-            string pluginsDirectory = System.IO.Path.Combine(projectDirectory, "Plugins");
-            if (Directory.Exists(pluginsDirectory))
+            string pluginRootDirectory = System.IO.Path.Combine(projectRootDirectory, "Plugins");
+            if (Directory.Exists(pluginRootDirectory))
             {
-                DirectoryInfo diectoryInfo = new DirectoryInfo(pluginsDirectory);
+                DirectoryInfo diectoryInfo = new DirectoryInfo(pluginRootDirectory);
                 foreach (var fileInfo in diectoryInfo.GetFiles("*.uplugin", SearchOption.AllDirectories))
                 {
                     string pluginName = System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name);
@@ -103,7 +86,7 @@ namespace UE4ProjectHelper
                 }
             }
 
-            foreach(string moduleSourceDirectory in moduleSourceDirectories)
+            foreach (string moduleSourceDirectory in moduleSourceDirectories)
             {
                 ModuleCollection.Add(
                     new DirectoryRecord
@@ -118,11 +101,130 @@ namespace UE4ProjectHelper
             directoryTreeView.ItemsSource = ModuleCollection;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             DirectoryRecord item = (DirectoryRecord)directoryTreeView.SelectedItem;
-           
-            myTextBlock.Text = item.FullName;
+            string targetDirectory = item.FullName;
+
+            TextBlock_Tips.Text = targetDirectory;
+            string inputFileName = TextBox_FileName.Text;
+
+
+            string targetFileName = System.IO.Path.Combine(targetDirectory, inputFileName);
+            List<string> targetFileNames = new List<string>();
+            switch (ComboBox_ExtensionType.SelectedIndex)
+            {
+                case 0:
+                    targetFileNames.Add(targetFileName + ".h");
+                    targetFileNames.Add(targetFileName + ".cpp");
+                    break;
+                case 1:
+                    targetFileNames.Add(targetFileName + ".h");
+                    break;
+                case 2:
+                    targetFileNames.Add(targetFileName + ".cpp");
+                    break;
+                case 3:
+                    string customizedExtension = ".txt";
+                    targetFileNames.Add(targetFileName + customizedExtension);
+                    break;
+                default:
+                    Close();
+                    return;
+
+            }
+
+
+            List<string> existingFiles = new List<string>();
+            foreach(var fileName in targetFileNames)
+            {
+                if(File.Exists(fileName))
+                {
+                    existingFiles.Add(fileName);
+                    continue;
+                }
+
+                FileStream fs;
+                fs = File.Create(fileName);
+                fs.Close();
+            }
+
+            if(existingFiles.Count != 0)
+            {
+                string message = "The following files already exist in target directory:";;
+
+                foreach(var existingFile in existingFiles)
+                {
+                    message += "\n" + System.IO.Path.GetFileName(existingFile);
+                }
+
+                TextBlock_Tips.Text = message;
+                TextBlock_Tips.Foreground = Brushes.Red;
+
+                Button_OK.IsEnabled = false;
+                return;
+            }
+
+            Close();
+
+            UE4Helper.Instance.UseVersionSelectorToGenerateProjectFiles();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (TextBox_CustomizedExtension != null)
+            {
+                bool bCanInputCustomizedExtension = ComboBox_ExtensionType.SelectedIndex == 3;
+                //TextBox_CustomizedExtension.IsEnabled = bCanInputCustomizedExtension;
+                TextBox_CustomizedExtension.IsEnabled = false;
+
+                TextBox_FileName_TextChanged(sender, e);
+            }
+        }
+
+        private void TreeView_TargetDirectorySelected(object sender, RoutedEventArgs e)
+        {
+            if (!Grid_Settings.IsEnabled)
+            {
+                Grid_Settings.IsEnabled = true;
+
+                ComboBox_SelectionChanged(sender, e);
+            }
+        }
+
+        private void TextBox_FileName_TextChanged(object sender, RoutedEventArgs e)
+        {
+            string fileName = TextBox_FileName.Text;
+            string failedReason;
+            bool bValidFileName = UE4Helper.Instance.IsFileNameValid(fileName, out failedReason);
+
+            if (Button_OK == null)
+            {
+                return;
+            }
+
+            Button_OK.IsEnabled = bValidFileName;
+
+            if (TextBlock_Tips == null)
+            {
+                return;
+            }
+
+            if (!bValidFileName)
+            {
+                TextBlock_Tips.Text = failedReason;
+                TextBlock_Tips.Foreground = Brushes.Red;
+            }
+            else
+            {
+                TextBlock_Tips.Text = "Tips: File name should not be longer than 30 characters and has no extension.";
+                TextBlock_Tips.Foreground = Brushes.Green;
+            }
         }
     }
 }

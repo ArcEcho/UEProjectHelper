@@ -78,6 +78,7 @@
     </VSCTCompile>
     <Resource Include="Resources\OpenAddFileDialogCommand.png" />
     <Resource Include="Resources\folder.png" />
+    <Resource Include="Resources\ArcEcho.png" />
     <Content Include="Resources\RegenerateProjectFilesCommand.png" />
     <Content Include="Resources\UE4HelperPackage.ico" />
     <Content Include="stylesheet.css" />

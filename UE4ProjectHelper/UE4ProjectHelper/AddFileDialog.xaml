@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UE4ProjectHelper"
         mc:Ignorable="d"
-        Title="AddFileDialog" Height="446.691" Width="537.972" ShowInTaskbar="False" ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-1">
-        <TreeView x:Name="directoryTreeView" Width="209" Height="387" Margin="12,12,0,0" 
-          VerticalAlignment="Top" HorizontalAlignment="Left">
+        Title="Add UE4 Code File" Height="302.691" Width="537.972" ShowInTaskbar="False" ResizeMode="NoResize" Icon="Resources/ArcEcho.png">
+    <Grid Margin="0,0,0,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="12*"/>
+        </Grid.ColumnDefinitions>
+        <TreeView x:Name="directoryTreeView" Width="209" Height="238" Margin="12,12,0,0" SelectedItemChanged="TreeView_TargetDirectorySelected"
+          VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type local:DirectoryRecord}"
                                   ItemsSource="{Binding Directories}" >
@@ -19,7 +23,25 @@
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="256,379,0,0" VerticalAlignment="Top" Width="234" Click="Button_Click_1"/>
-        <TextBlock x:Name="myTextBlock" HorizontalAlignment="Left" Margin="318,168,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <Grid x:Name="Grid_Settings" Margin="42,10,10,0" IsEnabled="False" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="17*"/>
+                <RowDefinition Height="246*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="Button_OK" Content="OK" HorizontalAlignment="Left" Margin="5,188,0,0" VerticalAlignment="Top" Width="134" Click="OKButton_Click" Height="35" Grid.Row="1"/>
+            <TextBox x:Name="TextBox_FileName" HorizontalAlignment="Left" Height="23" Margin="67,3,0,0" Text="MyClass" VerticalAlignment="Top" Width="207" AllowDrop="False" TextWrapping="WrapWithOverflow" MaxLength="30" TextChanged="TextBox_FileName_TextChanged" Grid.RowSpan="2"/>
+            <Label Content="File Name" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Grid.RowSpan="2"/>
+            <Button Content="Cancel" HorizontalAlignment="Left" Margin="144,188,0,0" VerticalAlignment="Top" Width="128" Click="CancelButton_Click" Height="35" Grid.Row="1"/>
+            <TextBlock x:Name="TextBlock_Tips" Margin="5,14,5,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="106" Foreground="Green" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" FontSize="11"><Span FontFamily="Consolas"><Run Text="Tips: File name should not be longer than 30 characters and has no extension."/></Span></TextBlock>
+            <ComboBox x:Name="ComboBox_ExtensionType" HorizontalAlignment="Left" Margin="94,127,0,0" VerticalAlignment="Top" Width="180" RenderTransformOrigin="0.55,0" SelectionChanged="ComboBox_SelectionChanged" Grid.Row="1">
+                <ComboBoxItem Content="Header and Souce File" IsSelected="True"/>
+                <ComboBoxItem Content="Only Header File"/>
+                <ComboBoxItem Content="Only Source File"/>
+                <ComboBoxItem Content="Customized"/>
+            </ComboBox>
+            <Label Content="Extension Type" HorizontalAlignment="Left" Margin="2,125,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.633,2.269" Width="92" Grid.Row="1"/>
+            <Label Content="Customized Extension" HorizontalAlignment="Left" Margin="2,156,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.567,3.5" Width="129" Grid.Row="1"/>
+            <TextBox x:Name="TextBox_CustomizedExtension" HorizontalAlignment="Left" Height="23" Margin="144,160,0,0" VerticalAlignment="Top" Width="130" AllowDrop="False" TextWrapping="WrapWithOverflow" MaxLength="30" Text=".txt" Grid.Row="1"/>
+        </Grid>
     </Grid>
 </Window>

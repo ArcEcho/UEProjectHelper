@@ -91,53 +91,14 @@ namespace UE4ProjectHelper
 		/// <param name="e">Event args.</param>
 		private void MenuItemCallback(object sender, EventArgs e)
 		{
-			RegistryKey targetKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes\Unreal.ProjectFile\shell\rungenproj\command");
-			if (targetKey.GetValueNames().Length != 1)
-			{
-				string message = string.Format(CultureInfo.CurrentCulture, "Error occurred when trying to read UnrealVersionSelector's path from register table.");
-				string title = "UE4 Helper - RegenerateProjectFiles";
+            UE4Helper.Initialize(this.package);
 
-				VsShellUtilities.ShowMessageBox(
-					this.ServiceProvider,
-					message,
-					title,
-					OLEMSGICON.OLEMSGICON_CRITICAL,
-					OLEMSGBUTTON.OLEMSGBUTTON_OK,
-					OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-			}
-			else
-			{
-				DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
-				if (dte.Solution.FullName.Length == 0 || dte.Solution.FullName == null)
-				{
-					string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
-					string title = "UE4 Project Helper";
+            if(!UE4Helper.Instance.CheckHelperRequisites())
+            {
+                return;
+            }
 
-					// Show a message box to prove we were here
-					VsShellUtilities.ShowMessageBox(
-						this.ServiceProvider,
-						message,
-						title,
-						OLEMSGICON.OLEMSGICON_CRITICAL,
-						OLEMSGBUTTON.OLEMSGBUTTON_OK,
-						OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-				}
-				else
-				{
-					string unrealVersionSelectorValueName = targetKey.GetValueNames()[0];
-					string unrealVersionSelectorCommand = targetKey.GetValue(unrealVersionSelectorValueName).ToString();
-					string fileName = unrealVersionSelectorCommand.Split(new string[] { " /projectfiles" }, StringSplitOptions.None)[0];
-
-					string uprojectFileName = dte.Solution.FullName.Replace(".sln", ".uproject");
-
-					System.Diagnostics.Process proc = new System.Diagnostics.Process();
-					proc.StartInfo.FileName = fileName;
-					proc.StartInfo.Arguments = "/projectfiles " + uprojectFileName;
-					proc.Start();
-				}
-			}
-
-			targetKey.Close();
+            UE4Helper.Instance.UseVersionSelectorToGenerateProjectFiles();
 		}
 	}
 }
