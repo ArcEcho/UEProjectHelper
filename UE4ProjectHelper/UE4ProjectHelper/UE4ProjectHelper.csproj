@@ -76,11 +76,13 @@
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
-    <Resource Include="Resources\OpenAddFileDialogCommand.png" />
     <Resource Include="Resources\folder.png" />
     <Resource Include="Resources\ArcEcho.png" />
-    <Content Include="Resources\RegenerateProjectFilesCommand.png" />
-    <Content Include="Resources\UE4HelperPackage.ico" />
+    <Resource Include="Resources\UE4Helper.png" />
+    <Content Include="Resources\UE4HelperPackage.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>

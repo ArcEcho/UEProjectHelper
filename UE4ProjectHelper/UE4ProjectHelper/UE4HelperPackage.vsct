@@ -22,7 +22,7 @@
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidUE4HelperPackage">
+  <Commands package="guidPackage">
     <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
@@ -36,12 +36,18 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidPackageCmdSet_RegenerateProjectFiles" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidPackage" id="UE4HelperMenuGroup" priority="0x0600">
         <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>-->
-        <Parent guid="guidPackageCmdSet_RegenerateProjectFiles" id="UE4HelperMenu" />
+        <Parent guid="guidPackage" id="UE4HelperMenu" />
       </Group>
-      <Group guid="guidPackageCmdSet_OpenAddFileDialog" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidPackageCmdSet_RegenerateProjectFiles" id="UE4HelperMenu" />
+      <Group guid="guidPackage" id="UE4HelperMenuGroup" priority="0x0600">
+        <Parent guid="guidPackage" id="UE4HelperMenu" />
+      </Group>
+      <Group guid="guidPackage" id="UE4HelperToolbarGroup" priority="0x0000">
+        <Parent guid="guidPackage" id="UE4HelperToolbar"/>
+      </Group>
+      <Group guid="guidPackage" id="UE4HelperToolbarGroup" priority="0x0000">
+        <Parent guid="guidPackage" id="UE4HelperToolbar"/>
       </Group>
     </Groups>
 
@@ -56,18 +62,32 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidPackageCmdSet_RegenerateProjectFiles" id="CommandId_RegenerateProjectFiles" priority="0x0100" type="Button">
-        <Parent guid="guidPackageCmdSet_RegenerateProjectFiles" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="guidPackageCmdSet" id="CommandId_RegenerateProjectFiles" priority="0x0100" type="Button">
+        <Parent guid="guidPackage" id="UE4HelperMenuGroup" />
+        <Icon guid="guidImages" id="RegenerateProjectFilesCommand" />
         <Strings>
-          <ButtonText>RegenerateProjectFiles</ButtonText>
+          <ButtonText>Regenerate Project Files</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidPackageCmdSet_OpenAddFileDialog" id="CommandId_OpenAddFileDialog" priority="0x0100" type="Button">
-        <Parent guid="guidPackageCmdSet_OpenAddFileDialog" id="MyMenuGroup" />
-        <Icon guid="guidImages1" id="bmpPic1" />
+      <Button guid="guidPackageCmdSet" id="CommandId_OpenAddFileDialog" priority="0x0100" type="Button">
+        <Parent guid="guidPackage" id="UE4HelperMenuGroup" />
+        <Icon guid="guidImages" id="OpenAddFileDialogCommand" />
         <Strings>
-          <ButtonText>OpenAddFileDialog</ButtonText>
+          <ButtonText>Open Add File Dialog</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidPackageCmdSet" id="CommandId_RegenerateProjectFiles" priority="0x0100" type="Button">
+        <Parent guid= "guidPackage" id="UE4HelperToolbarGroup" />
+        <Icon guid="guidImages" id="RegenerateProjectFilesCommand" />
+        <Strings>
+          <ButtonText>Regenerate Project Files</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidPackageCmdSet" id="CommandId_OpenAddFileDialog" priority="0x0100" type="Button">
+        <Parent guid= "guidPackage" id="UE4HelperToolbarGroup" />
+        <Icon guid="guidImages" id="OpenAddFileDialogCommand" />
+        <Strings>
+          <ButtonText>Open Add File Dialog</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -79,13 +99,20 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\RegenerateProjectFilesCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
-      <Bitmap guid="guidImages1" href="Resources\OpenAddFileDialogCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages" href="Resources\UE4Helper.png" usedList="RegenerateProjectFilesCommand, OpenAddFileDialogCommand" />
     </Bitmaps>
 
     <Menus>
-      <Menu guid="guidPackageCmdSet_RegenerateProjectFiles" id="UE4HelperMenu" priority="0x700" type="Menu">
+      <Menu guid="guidPackage" id="UE4HelperMenu" priority="0x700" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+        <Strings>
+          <ButtonText>UE4 Helper</ButtonText>
+          <CommandName>UE4 Helper</CommandName>
+        </Strings>
+      </Menu>
+
+      <Menu guid="guidPackage" id="UE4HelperToolbar" type="Toolbar" >
+        <CommandFlag>DefaultDocked</CommandFlag>
         <Strings>
           <ButtonText>UE4 Helper</ButtonText>
           <CommandName>UE4 Helper</CommandName>
@@ -96,36 +123,23 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidUE4HelperPackage" value="{b75d77ba-a8cf-4ac2-854a-300d17c1f671}" />
+    <GuidSymbol name="guidPackage" value="{b75d77ba-a8cf-4ac2-854a-300d17c1f671}" >
+      <IDSymbol name="UE4HelperMenu" value="0x1021" />
+      <IDSymbol name="UE4HelperMenuGroup" value="0x1020" />
+      <IDSymbol name="UE4HelperToolbar" value="0x1000" />
+      <IDSymbol name="UE4HelperToolbarGroup" value="0x1050" />
+    </GuidSymbol>
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidPackageCmdSet_RegenerateProjectFiles" value="{e2f445d8-cc4d-4886-8c74-ea25a363148c}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+    <GuidSymbol name="guidPackageCmdSet" value="{e2f445d8-cc4d-4886-8c74-ea25a363148c}">
       <IDSymbol name="CommandId_RegenerateProjectFiles" value="0x0100" />
-      <IDSymbol name="UE4HelperMenu" value="0x1021" />
+      <IDSymbol name="CommandId_OpenAddFileDialog" value="0x0101" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{10c9d8b0-eb5b-4b64-8ef6-24aacf2e4747}">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
+      <IDSymbol name="RegenerateProjectFilesCommand" value="1" />
+      <IDSymbol name="OpenAddFileDialogCommand" value="2" />
     </GuidSymbol>
-  
-    <GuidSymbol value="{548bd559-34f4-4251-8ca3-cdd7fcea17fa}" name="guidPackageCmdSet_OpenAddFileDialog">
-      <IDSymbol value="4128" name="MyMenuGroup" />
-      <IDSymbol value="256" name="CommandId_OpenAddFileDialog" />
-    </GuidSymbol>
-  
-    <GuidSymbol value="{8264dc35-6230-4dc1-9e3f-0767d01c9cdd}" name="guidImages1">
-      <IDSymbol name="bmpPic1" value="1" />
-      <IDSymbol name="bmpPic2" value="2" />
-      <IDSymbol name="bmpPicSearch" value="3" />
-      <IDSymbol name="bmpPicX" value="4" />
-      <IDSymbol name="bmpPicArrows" value="5" />
-      <IDSymbol name="bmpPicStrikethrough" value="6" />
-    </GuidSymbol>
+    
   </Symbols>
 </CommandTable>

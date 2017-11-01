@@ -22,12 +22,12 @@ namespace UE4ProjectHelper
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 256;
+        public const int CommandId = 0x0101;
 
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("548bd559-34f4-4251-8ca3-cdd7fcea17fa");
+        public static readonly Guid CommandSet = new Guid("e2f445d8-cc4d-4886-8c74-ea25a363148c");
 
         /// <summary>
         /// VS Package that provides this command, not null.
