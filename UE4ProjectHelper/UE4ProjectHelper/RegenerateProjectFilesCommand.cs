@@ -90,7 +90,9 @@ namespace UE4ProjectHelper
 		/// <param name="sender">Event sender.</param>
 		/// <param name="e">Event args.</param>
 		private void MenuItemCallback(object sender, EventArgs e)
-		{
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             UE4Helper.Initialize(this.package);
 
             if(!UE4Helper.Instance.CheckHelperRequisites())

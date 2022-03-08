@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using EnvDTE;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System.IO;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace UE4ProjectHelper
 {
@@ -68,17 +68,27 @@ namespace UE4ProjectHelper
 
         public bool HasAnySolutionOpened()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+            if (dte == null)
+            {
+                return false;
+            }    
+
+
             return !(dte.Solution.FullName.Length == 0 || dte.Solution.FullName == null);
         }
 
         public bool IsValidUE4Solution()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             return File.Exists(GetUProjectFileName());
         }
 
         public bool CheckHelperRequisites()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (!HasAnySolutionOpened())
             {
                 string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
@@ -98,24 +108,36 @@ namespace UE4ProjectHelper
 
         public string GetUProjectFileName()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+            if(dte == null)
+            {
+                return String.Empty;
+            }
+
             string uprojectFileName = dte.Solution.FullName.Replace(".sln", ".uproject");
             return uprojectFileName;
         }
 
         public string GetProjectName()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             return Path.GetFileNameWithoutExtension(GetUProjectFileName());
         }
 
         public string GetProjectRootDirectory()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             string uprojectFileName = GetUProjectFileName();
             return Path.GetDirectoryName(uprojectFileName);
         }
 
         public void UseVersionSelectorToGenerateProjectFiles()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             RegistryKey targetKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes\Unreal.ProjectFile\shell\rungenproj\command");
             if (targetKey.GetValueNames().Length != 1)
             {

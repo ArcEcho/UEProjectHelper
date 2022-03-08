@@ -52,6 +52,8 @@ namespace UE4ProjectHelper
 
         public AddFileDialog(IVsUIShell uiShell)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             this.uiShell = uiShell;
 
             InitializeComponent();
@@ -61,6 +63,8 @@ namespace UE4ProjectHelper
 
         private void DetectModules()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var ModuleCollection = new ObservableCollection<DirectoryRecord>();
 
             string projectRootDirectory = UE4Helper.Instance.GetProjectRootDirectory();
@@ -103,6 +107,8 @@ namespace UE4ProjectHelper
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             DirectoryRecord item = (DirectoryRecord)directoryTreeView.SelectedItem;
             string targetDirectory = item.FullName;
 

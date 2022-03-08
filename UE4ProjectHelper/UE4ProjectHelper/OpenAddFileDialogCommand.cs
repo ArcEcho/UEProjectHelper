@@ -95,6 +95,8 @@ namespace UE4ProjectHelper
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             UE4Helper.Initialize(this.package);
 
             if (!UE4Helper.Instance.CheckHelperRequisites())
@@ -103,6 +105,11 @@ namespace UE4ProjectHelper
             }
 
             IVsUIShell uiShell = (IVsUIShell)ServiceProvider.GetService(typeof(SVsUIShell));
+            if(uiShell == null)
+            {
+                return;
+            }
+
             AddFileDialog dialog = new AddFileDialog(uiShell);
             //get the owner of this dialog  
             IntPtr hwnd;
