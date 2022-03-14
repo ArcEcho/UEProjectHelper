@@ -79,31 +79,10 @@ namespace UE4ProjectHelper
             return !(dte.Solution.FullName.Length == 0 || dte.Solution.FullName == null);
         }
 
-        public bool IsValidUE4Solution()
+        public bool IsUEGameSolution()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             return File.Exists(GetUProjectFileName());
-        }
-
-        public bool CheckHelperRequisites()
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
-            if (!HasAnySolutionOpened())
-            {
-                string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
-                ShowErrorMessage(message);
-                return false;
-            }
-
-            if (!IsValidUE4Solution())
-            {
-                string message = string.Format(CultureInfo.CurrentCulture, "This project is not a valid UE4 project since there is no uproject file detected!");
-                ShowErrorMessage(message);
-                return false;
-            }
-
-            return true;
         }
 
         public string GetUProjectFileName()
@@ -119,14 +98,26 @@ namespace UE4ProjectHelper
             return uprojectFileName;
         }
 
-        public string GetProjectName()
+        public string GetSolutionDirectory()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+            if (dte == null)
+            {
+                return String.Empty;
+            }
+
+            return Path.GetDirectoryName(dte.Solution.FullName);
+        }
+
+        public string GetGameProjectName()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             return Path.GetFileNameWithoutExtension(GetUProjectFileName());
         }
 
-        public string GetProjectRootDirectory()
+        public string GetGameProjectRootDirectory()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -134,14 +125,14 @@ namespace UE4ProjectHelper
             return Path.GetDirectoryName(uprojectFileName);
         }
 
-        public void UseVersionSelectorToGenerateProjectFiles()
+        public void RegenerateGameSolution()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             RegistryKey targetKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes\Unreal.ProjectFile\shell\rungenproj\command");
             if (targetKey.GetValueNames().Length != 1)
             {
-                string message = string.Format(CultureInfo.CurrentCulture, "No UE4 version selector detected, you may have not installed UE4 Launcher.");
+                string message = string.Format(CultureInfo.CurrentCulture, "No UnrealEngineVersionSelector detected.");
                 ShowErrorMessage(message);
             }
             else
@@ -158,6 +149,46 @@ namespace UE4ProjectHelper
             }
 
             targetKey.Close();
+        }
+
+        public bool IsUEEngineSolution()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            DTE dte = (DTE)this.ServiceProvider.GetService(typeof(DTE));
+            if (dte == null)
+            {
+                return false;
+            }
+
+            string solutionName = Path.GetFileName(dte.Solution.FileName);
+            return solutionName == "UE5.sln" || solutionName == "UE4.sln";
+        }
+
+        public bool IsGenerateProjectFilesScriptExists()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            string GenerateProjectFilesScriptFilepath = Path.Combine(GetSolutionDirectory(), "GenerateProjectFiles.bat");
+            return File.Exists(GenerateProjectFilesScriptFilepath);
+        }
+
+        public void RegenerateEngineSolution()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            if (!IsGenerateProjectFilesScriptExists())
+            {
+                string message = string.Format(CultureInfo.CurrentCulture, "This seems to be a engine solution, but the GenerateProject.bat file not exists. ");
+                ShowErrorMessage(message);
+                return;
+            }
+            else
+            {
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo.FileName = "GenerateProjectFiles.bat";
+                proc.Start();
+            }
         }
 
         public void ShowDebugString(String inString)

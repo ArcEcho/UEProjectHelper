@@ -96,11 +96,19 @@ namespace UE4ProjectHelper
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
             UE4Helper.Initialize(this.package);
 
-            if (!UE4Helper.Instance.CheckHelperRequisites())
+            if (!UE4Helper.Instance.HasAnySolutionOpened())
             {
+                string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
+                UE4Helper.Instance.ShowErrorMessage(message);
+                return;
+            }
+
+            if (!UE4Helper.Instance.IsUEGameSolution())
+            {
+                string message = string.Format(CultureInfo.CurrentCulture, "This solution is not a valid UE game solution.");
+                UE4Helper.Instance.ShowErrorMessage(message);
                 return;
             }
 
@@ -125,8 +133,6 @@ namespace UE4ProjectHelper
                 // This will take place after the window is closed.  
                 uiShell.EnableModeless(1);
             }
-
-
         }
     }
 }
