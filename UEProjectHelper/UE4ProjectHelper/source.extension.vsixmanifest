@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="UE4ProjectHelper.5056517d-6204-46fe-b47c-23ec3788ebc7" Version="0.1.1" Language="en-US" Publisher="zmy_qwerty" />
-        <DisplayName>UE4ProjectHelper</DisplayName>
+        <Identity Id="UEProjectHelper.5056517d-6204-46fe-b47c-23ec3788ebc7" Version="0.1.1" Language="en-US" Publisher="zmy_qwerty" />
+        <DisplayName>UEProjectHelper</DisplayName>
         <Description xml:space="preserve">Empty VSIX Project.</Description>
-        <MoreInfo>https://github.com/ArcEcho/UE4ProjectHelper</MoreInfo>
-        <GettingStartedGuide>https://github.com/ArcEcho/UE4ProjectHelper</GettingStartedGuide>
-        <Icon>UE4HelperPackage.ico</Icon>
+        <MoreInfo>https://github.com/ArcEcho/UEProjectHelper</MoreInfo>
+        <GettingStartedGuide>https://github.com/ArcEcho/UEProjectHelper</GettingStartedGuide>
+        <Icon>UEHelperPackage.ico</Icon>
     </Metadata>
     <Installation AllUsers="true">
         <InstallationTarget Version="[16.0,18.0)" Id="Microsoft.VisualStudio.Community">

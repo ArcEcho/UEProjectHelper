@@ -11,19 +11,19 @@ using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace UE4ProjectHelper
+namespace UEProjectHelper
 {
-    class UE4Helper
+    class UEHelper
     {
         private readonly Package package;
 
-        public static UE4Helper Instance
+        public static UEHelper Instance
         {
             get;
             private set;
         }
 
-        private UE4Helper(Package package)
+        private UEHelper(Package package)
         {
             if (package == null)
             {
@@ -38,7 +38,7 @@ namespace UE4ProjectHelper
         {
             if (Instance == null)
             {
-                Instance = new UE4Helper(package);
+                Instance = new UEHelper(package);
             }
         }
 
@@ -55,7 +55,7 @@ namespace UE4ProjectHelper
 
         public void ShowErrorMessage(string message)
         {
-            string title = "UE4 Helper";
+            string title = "UE Helper";
 
             VsShellUtilities.ShowMessageBox(
                 this.ServiceProvider,
@@ -162,7 +162,7 @@ namespace UE4ProjectHelper
             }
 
             string solutionName = Path.GetFileName(dte.Solution.FileName);
-            return solutionName == "UE5.sln" || solutionName == "UE4.sln";
+            return solutionName == "UE5.sln" || solutionName == "UE.sln";
         }
 
         public bool IsGenerateProjectFilesScriptExists()

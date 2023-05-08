@@ -36,18 +36,18 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidPackage" id="UE4HelperMenuGroup" priority="0x0600">
+      <Group guid="guidPackage" id="UEHelperMenuGroup" priority="0x0600">
         <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>-->
-        <Parent guid="guidPackage" id="UE4HelperMenu" />
+        <Parent guid="guidPackage" id="UEHelperMenu" />
       </Group>
-      <Group guid="guidPackage" id="UE4HelperMenuGroup" priority="0x0600">
-        <Parent guid="guidPackage" id="UE4HelperMenu" />
+      <Group guid="guidPackage" id="UEHelperMenuGroup" priority="0x0600">
+        <Parent guid="guidPackage" id="UEHelperMenu" />
       </Group>
-      <Group guid="guidPackage" id="UE4HelperToolbarGroup" priority="0x0000">
-        <Parent guid="guidPackage" id="UE4HelperToolbar"/>
+      <Group guid="guidPackage" id="UEHelperToolbarGroup" priority="0x0000">
+        <Parent guid="guidPackage" id="UEHelperToolbar"/>
       </Group>
-      <Group guid="guidPackage" id="UE4HelperToolbarGroup" priority="0x0000">
-        <Parent guid="guidPackage" id="UE4HelperToolbar"/>
+      <Group guid="guidPackage" id="UEHelperToolbarGroup" priority="0x0000">
+        <Parent guid="guidPackage" id="UEHelperToolbar"/>
       </Group>
     </Groups>
 
@@ -63,28 +63,28 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidPackageCmdSet" id="CommandId_RegenerateProjectFiles" priority="0x0100" type="Button">
-        <Parent guid="guidPackage" id="UE4HelperMenuGroup" />
+        <Parent guid="guidPackage" id="UEHelperMenuGroup" />
         <Icon guid="guidImages" id="RegenerateProjectFilesCommand" />
         <Strings>
           <ButtonText>Regenerate Project Files</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidPackageCmdSet" id="CommandId_OpenAddFileDialog" priority="0x0100" type="Button">
-        <Parent guid="guidPackage" id="UE4HelperMenuGroup" />
+        <Parent guid="guidPackage" id="UEHelperMenuGroup" />
         <Icon guid="guidImages" id="OpenAddFileDialogCommand" />
         <Strings>
           <ButtonText>Open Add File Dialog</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidPackageCmdSet" id="CommandId_RegenerateProjectFiles" priority="0x0100" type="Button">
-        <Parent guid= "guidPackage" id="UE4HelperToolbarGroup" />
+        <Parent guid= "guidPackage" id="UEHelperToolbarGroup" />
         <Icon guid="guidImages" id="RegenerateProjectFilesCommand" />
         <Strings>
           <ButtonText>Regenerate Project Files</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidPackageCmdSet" id="CommandId_OpenAddFileDialog" priority="0x0100" type="Button">
-        <Parent guid= "guidPackage" id="UE4HelperToolbarGroup" />
+        <Parent guid= "guidPackage" id="UEHelperToolbarGroup" />
         <Icon guid="guidImages" id="OpenAddFileDialogCommand" />
         <Strings>
           <ButtonText>Open Add File Dialog</ButtonText>
@@ -99,23 +99,23 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\UE4Helper.png" usedList="RegenerateProjectFilesCommand, OpenAddFileDialogCommand" />
+      <Bitmap guid="guidImages" href="Resources\UEHelper.png" usedList="RegenerateProjectFilesCommand, OpenAddFileDialogCommand" />
     </Bitmaps>
 
     <Menus>
-      <Menu guid="guidPackage" id="UE4HelperMenu" priority="0x700" type="Menu">
+      <Menu guid="guidPackage" id="UEHelperMenu" priority="0x700" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
         <Strings>
-          <ButtonText>UE4 Helper</ButtonText>
-          <CommandName>UE4 Helper</CommandName>
+          <ButtonText>UE Helper</ButtonText>
+          <CommandName>UE Helper</CommandName>
         </Strings>
       </Menu>
 
-      <Menu guid="guidPackage" id="UE4HelperToolbar" type="Toolbar" >
+      <Menu guid="guidPackage" id="UEHelperToolbar" type="Toolbar" >
         <CommandFlag>DefaultDocked</CommandFlag>
         <Strings>
-          <ButtonText>UE4 Helper</ButtonText>
-          <CommandName>UE4 Helper</CommandName>
+          <ButtonText>UE Helper</ButtonText>
+          <CommandName>UE Helper</CommandName>
         </Strings>
       </Menu>
     </Menus>
@@ -124,10 +124,10 @@
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidPackage" value="{b75d77ba-a8cf-4ac2-854a-300d17c1f671}" >
-      <IDSymbol name="UE4HelperMenu" value="0x1021" />
-      <IDSymbol name="UE4HelperMenuGroup" value="0x1020" />
-      <IDSymbol name="UE4HelperToolbar" value="0x1000" />
-      <IDSymbol name="UE4HelperToolbarGroup" value="0x1050" />
+      <IDSymbol name="UEHelperMenu" value="0x1021" />
+      <IDSymbol name="UEHelperMenuGroup" value="0x1020" />
+      <IDSymbol name="UEHelperToolbar" value="0x1000" />
+      <IDSymbol name="UEHelperToolbarGroup" value="0x1050" />
     </GuidSymbol>
 
     <!-- This is the guid used to group the menu commands together -->

@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.IO;
 using System.Collections.ObjectModel;
 
-namespace UE4ProjectHelper
+namespace UEProjectHelper
 {
     class DirectoryRecord
     {
@@ -67,11 +67,11 @@ namespace UE4ProjectHelper
 
             var ModuleCollection = new ObservableCollection<DirectoryRecord>();
 
-            string projectRootDirectory = UE4Helper.Instance.GetGameProjectRootDirectory();
+            string projectRootDirectory = UEHelper.Instance.GetGameProjectRootDirectory();
             List<string> moduleSourceDirectories = new List<string>();
 
             // Add game module
-            string projectName = UE4Helper.Instance.GetGameProjectName();
+            string projectName = UEHelper.Instance.GetGameProjectName();
             string gameModuleSourceDirectory = System.IO.Path.Combine(projectRootDirectory, "Source", projectName);
             moduleSourceDirectories.Add(gameModuleSourceDirectory);
 
@@ -173,7 +173,7 @@ namespace UE4ProjectHelper
 
             Close();
 
-            UE4Helper.Instance.RegenerateGameSolution();
+            UEHelper.Instance.RegenerateGameSolution();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -207,7 +207,7 @@ namespace UE4ProjectHelper
         {
             string fileName = TextBox_FileName.Text;
             string failedReason;
-            bool bValidFileName = UE4Helper.Instance.IsFileNameValid(fileName, out failedReason);
+            bool bValidFileName = UEHelper.Instance.IsFileNameValid(fileName, out failedReason);
 
             if (Button_OK == null)
             {

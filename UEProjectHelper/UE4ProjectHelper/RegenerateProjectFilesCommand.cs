@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using EnvDTE;
 
-namespace UE4ProjectHelper
+namespace UEProjectHelper
 {
 	/// <summary>
 	/// Command handler
@@ -93,27 +93,27 @@ namespace UE4ProjectHelper
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            UE4Helper.Initialize(this.package);
+            UEHelper.Initialize(this.package);
 
-            if(!UE4Helper.Instance.HasAnySolutionOpened())
+            if(!UEHelper.Instance.HasAnySolutionOpened())
             {
                 string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
-				UE4Helper.Instance.ShowErrorMessage(message);
+				UEHelper.Instance.ShowErrorMessage(message);
                 return;
             }
 
-			if (UE4Helper.Instance.IsUEGameSolution())
+			if (UEHelper.Instance.IsUEGameSolution())
             {
-				UE4Helper.Instance.RegenerateGameSolution();
+				UEHelper.Instance.RegenerateGameSolution();
             }
-			else if (UE4Helper.Instance.IsUEEngineSolution())
+			else if (UEHelper.Instance.IsUEEngineSolution())
 			{ 
-				UE4Helper.Instance.RegenerateEngineSolution();
+				UEHelper.Instance.RegenerateEngineSolution();
 			}
 			else
             {
-                string message = string.Format(CultureInfo.CurrentCulture, "This solution is not a valid UE4 game solution or engine solution.");
-				UE4Helper.Instance.ShowErrorMessage(message);
+                string message = string.Format(CultureInfo.CurrentCulture, "This solution is not a valid UE game solution or engine solution.");
+				UEHelper.Instance.ShowErrorMessage(message);
             }
 		}
 	}

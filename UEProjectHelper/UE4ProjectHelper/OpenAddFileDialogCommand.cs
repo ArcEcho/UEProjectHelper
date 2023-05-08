@@ -12,7 +12,7 @@ using EnvDTE;
 using System.IO;
 using System.Collections.Generic;
 
-namespace UE4ProjectHelper
+namespace UEProjectHelper
 {
     /// <summary>
     /// Command handler
@@ -96,19 +96,19 @@ namespace UE4ProjectHelper
         private void MenuItemCallback(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            UE4Helper.Initialize(this.package);
+            UEHelper.Initialize(this.package);
 
-            if (!UE4Helper.Instance.HasAnySolutionOpened())
+            if (!UEHelper.Instance.HasAnySolutionOpened())
             {
                 string message = string.Format(CultureInfo.CurrentCulture, "You may have not opened any solution, please check!");
-                UE4Helper.Instance.ShowErrorMessage(message);
+                UEHelper.Instance.ShowErrorMessage(message);
                 return;
             }
 
-            if (!UE4Helper.Instance.IsUEGameSolution())
+            if (!UEHelper.Instance.IsUEGameSolution())
             {
                 string message = string.Format(CultureInfo.CurrentCulture, "This solution is not a valid UE game solution.");
-                UE4Helper.Instance.ShowErrorMessage(message);
+                UEHelper.Instance.ShowErrorMessage(message);
                 return;
             }
 

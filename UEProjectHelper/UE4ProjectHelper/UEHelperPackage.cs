@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 
-namespace UE4ProjectHelper
+namespace UEProjectHelper
 {
 	/// <summary>
 	/// This is the class that implements the package exposed by this assembly.
@@ -32,19 +32,19 @@ namespace UE4ProjectHelper
 	[PackageRegistration(UseManagedResourcesOnly = true)]
 	[InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
 	[ProvideMenuResource("Menus.ctmenu", 1)]
-	[Guid(UE4HelperPackage.PackageGuidString)]
+	[Guid(UEHelperPackage.PackageGuidString)]
 	[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-	public sealed class UE4HelperPackage : Package
+	public sealed class UEHelperPackage : Package
 	{
 		/// <summary>
-		/// UE4HelperPackage GUID string.
+		/// UEHelperPackage GUID string.
 		/// </summary>
 		public const string PackageGuidString = "b75d77ba-a8cf-4ac2-854a-300d17c1f671";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RegenerateProjectFilesCommand"/> class.
 		/// </summary>
-		public UE4HelperPackage()
+		public UEHelperPackage()
 		{
 			// Inside this method you can place any initialization code that does not require
 			// any Visual Studio service because at this point the package object is created but
